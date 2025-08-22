@@ -31,3 +31,25 @@ button.destructive {
   border-color: var(--mw-red);
   box-shadow: 0 0 4px var(--mw-red), 0 0 8px var(--mw-red);
 }
+
+.cmdk-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cmdk-panel {
+  background: var(--mw-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.cmdk-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

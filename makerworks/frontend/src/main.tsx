@@ -6,9 +6,11 @@ import App from './App';
 import './style.css';
 import { loadPlugins } from './plugins';
 import { registerSW } from 'virtual:pwa-register';
+import { initTheme } from './state/theme';
 
 await loadPlugins();
 registerSW();
+await initTheme();
 
 const queryClient = new QueryClient();
 

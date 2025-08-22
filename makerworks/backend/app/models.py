@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, JSON
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -49,3 +49,11 @@ class NotificationSubscription(Base):
     channel: Mapped[str] = mapped_column(String(20))
     target: Mapped[str] = mapped_column(String(255))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class Theme(Base):
+    __tablename__ = "themes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    org: Mapped[str] = mapped_column(String(100), unique=True)
+    tokens: Mapped[dict] = mapped_column(JSON, default=dict)

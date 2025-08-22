@@ -75,3 +75,9 @@ API keys can be exported or imported in CSV or JSON form via `/api/v1/apikeys/ex
 import endpoint supports a `dry_run=true` flag for validation without persistence. Delete multiple keys at once with
 `POST /api/v1/apikeys/bulk-delete`.
 
+### Command Palette & Themes
+
+Press `Cmd+K` (`Ctrl+K` on Windows/Linux) to open the global command palette for quick navigation. Brand colors are
+loaded from `/api/v1/themes/{org}` and can be customized on the `/theme` page; edited tokens apply instantly across the
+app.
+
