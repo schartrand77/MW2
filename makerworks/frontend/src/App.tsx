@@ -10,6 +10,7 @@ import Affiliate from './pages/Affiliate';
 import Scan from './pages/Scan';
 import PrinterAdmin from './pages/PrinterAdmin';
 import ModelEditor from './pages/ModelEditor';
+import ActivityFeed from './pages/ActivityFeed';
 
 function Home() {
   return (
@@ -30,6 +31,8 @@ function Home() {
       <Link to="/admin/printers">Printers</Link>
       <br />
       <Link to="/models/demo/edit">Model Editor</Link>
+      <br />
+      <Link to="/admin/activity">Activity</Link>
     </div>
   );
 }
@@ -47,6 +50,7 @@ export default function App() {
       <Route path="/scan" element={<Scan />} />
       <Route path="/admin/printers" element={<PrinterAdmin />} />
       <Route path="/models/:id/edit" element={<ModelEditor />} />
+      <Route path="/admin/activity" element={<ActivityFeed />} />
       <Route path="/checkout/success" element={<CheckoutSuccess />} />
       <Route path="/checkout/cancel" element={<CheckoutCancel />} />
     </Routes>

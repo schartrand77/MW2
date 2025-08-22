@@ -103,3 +103,10 @@ Upload STL or 3MF files and generate thumbnails:
 - `POST /api/v1/models/{id}/color` to set a hex color and re-render the thumbnail
 - `POST /api/v1/models/{id}/rethumb` to regenerate the thumbnail
 
+
+## Messaging & Workspaces
+
+- `POST /api/v1/orgs` to create an org (current user becomes owner)
+- `GET /api/v1/orgs` to list your orgs
+- `GET /api/v1/admin/activity` admin-only audit log
+- WebSocket `/api/v1/ws/dm/{user_id}` for direct messages
