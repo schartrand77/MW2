@@ -20,6 +20,11 @@ class Settings(BaseSettings):
     vapid_private_key: str | None = Field(default=None, validation_alias=AliasChoices("PUSH_VAPID_PRIVATE_KEY",))
     discord_bot_token: str | None = Field(default=None, validation_alias=AliasChoices("DISCORD_BOT_TOKEN",))
     discord_channel_id: str | None = Field(default=None, validation_alias=AliasChoices("DISCORD_CHANNEL_ID",))
+    plugins_raw: str = Field(default="", validation_alias=AliasChoices("PLUGINS",))
+
+    @property
+    def plugins(self) -> list[str]:
+        return [p.strip() for p in self.plugins_raw.split(",") if p.strip()]
 
 
 settings = Settings()

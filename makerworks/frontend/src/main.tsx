@@ -4,6 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './style.css';
+import { loadPlugins } from './plugins';
+
+await loadPlugins();
 
 const queryClient = new QueryClient();
 

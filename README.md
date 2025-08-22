@@ -55,3 +55,12 @@ restore from it.
 Export or delete persisted data using `/api/v1/compliance/export` and `/api/v1/compliance/delete`. A basic GDPR
 checklist is available at `/api/v1/compliance/checklist`.
 
+### Plugins & Edge Caching
+
+Specify server plugins via the comma-separated `PLUGINS` environment variable. Each module should expose a
+`setup(app)` function that receives the FastAPI instance. The frontend can load ES modules listed in `VITE_PLUGINS` and
+call their optional `setup()` hook.
+
+Responses now include `Cache-Control` and `ETag` headers by default, enabling Cloudflare-friendly caching with
+`stale-while-revalidate` semantics.
+
