@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     amazon_associate_tag: str | None = None
     amazon_paapi_access_key: str | None = None
     amazon_paapi_secret_key: str | None = None
+    bambu_connect_api_key: str | None = None
+    octoprint_base_url: str | None = None
+    octoprint_api_key: str | None = None
 
 
 settings = Settings()

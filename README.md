@@ -81,3 +81,14 @@ Available endpoints:
 
 Use the `/scan` page in the frontend to scan barcodes and post inventory moves by SKU.
 
+## Printing Integrations
+
+Available endpoints:
+
+- `POST /api/v1/printing/{provider}/jobs`
+- `GET /api/v1/printing/{provider}/jobs/{id}`
+- `POST /api/v1/printing/{provider}/webhook`
+
+Supported providers: `bambu` and `octoprint`. Set `BAMBU_CONNECT_API_KEY`,
+`OCTOPRINT_BASE_URL`, and `OCTOPRINT_API_KEY` in your environment to enable.
+

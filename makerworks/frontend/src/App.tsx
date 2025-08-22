@@ -8,6 +8,7 @@ import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutCancel from './pages/CheckoutCancel';
 import Affiliate from './pages/Affiliate';
 import Scan from './pages/Scan';
+import PrinterAdmin from './pages/PrinterAdmin';
 
 function Home() {
   return (
@@ -24,6 +25,8 @@ function Home() {
       <Link to="/affiliate">Affiliate</Link>
       <br />
       <Link to="/scan">Scan</Link>
+      <br />
+      <Link to="/admin/printers">Printers</Link>
     </div>
   );
 }
@@ -39,6 +42,7 @@ export default function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/affiliate" element={<Affiliate />} />
       <Route path="/scan" element={<Scan />} />
+      <Route path="/admin/printers" element={<PrinterAdmin />} />
       <Route path="/checkout/success" element={<CheckoutSuccess />} />
       <Route path="/checkout/cancel" element={<CheckoutCancel />} />
     </Routes>

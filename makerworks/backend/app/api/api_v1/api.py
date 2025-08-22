@@ -6,6 +6,7 @@ from .routes import (
     cart,
     checkout,
     inventory,
+    printing,
     products,
     system,
     user_inventory,
@@ -19,4 +20,5 @@ api_router.include_router(cart.router, prefix="/cart", tags=["cart"])
 api_router.include_router(checkout.router, prefix="/checkout", tags=["checkout"])
 api_router.include_router(amazon.router, prefix="/amazon", tags=["amazon"])
 api_router.include_router(inventory.router, prefix="/inventory", tags=["inventory"])
+api_router.include_router(printing.router, prefix="/printing", tags=["printing"])
 api_router.include_router(user_inventory.router, tags=["user-inventory"])
