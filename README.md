@@ -20,7 +20,13 @@ Dockerized monorepo containing a FastAPI backend and a React/Vite frontend.
 
 ## Admin Seeding
 
-Run `python makerworks/backend/app/seed.py` after the database is up to create a default admin user.
+Populate demo data after the stack is running:
+
+```bash
+make seed
+```
+
+This creates a sample API key and theme for the `demo` organization.
 
 ## Feature Flags
 
@@ -80,4 +86,12 @@ import endpoint supports a `dry_run=true` flag for validation without persistenc
 Press `Cmd+K` (`Ctrl+K` on Windows/Linux) to open the global command palette for quick navigation. Brand colors are
 loaded from `/api/v1/themes/{org}` and can be customized on the `/theme` page; edited tokens apply instantly across the
 app.
+
+## Documentation
+
+Additional guides live in the `docs/` directory:
+
+- `docs/api.md` – API usage and generated clients.
+- `docs/plugins.md` – authoring server and client plugins.
+- `docs/integrations.md` – configuring external services.
 

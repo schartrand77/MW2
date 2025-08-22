@@ -1,0 +1,11 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "MakerWorks",
+  "requests": [
+    {
+      "name": "Ping",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/system/ping"
+    }
+  ]
+}
