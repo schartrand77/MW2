@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.env
+.env
+.env.*
+.venv/
+
+# Node
+node_modules/
+dist/
+*.log
+
+# Alembic
+makerworks/backend/alembic/versions/*.pyc
+
+# VSCode
+.vscode/
+
+# Misc
+.DS_Store
+
+MakerWorks-Android/

@@ -1,0 +1,10 @@
+{
+  "name": "makerworks",
+  "private": true,
+  "workspaces": ["makerworks/frontend"],
+  "scripts": {
+    "frontend:test": "npm --prefix makerworks/frontend test",
+    "frontend:dev": "npm --prefix makerworks/frontend run dev",
+    "frontend:build": "npm --prefix makerworks/frontend run build"
+  }
+}

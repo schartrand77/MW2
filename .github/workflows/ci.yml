@@ -7,27 +7,31 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: makerworks-backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - run: python -m pip install --upgrade pip
-      - run: pip install -r requirements.txt
-      - run: pytest
-
+          python-version: '3.12'
+      - name: Install deps
+        run: |
+          cd makerworks/backend
+          python -m pip install -r requirements.txt
+      - name: Test
+        run: |
+          cd makerworks/backend
+          pytest
   frontend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: makerworks-frontend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      - run: npm ci
-      - run: npm test
+          node-version: '20'
+      - name: Install deps
+        run: |
+          cd makerworks/frontend
+          npm install
+      - name: Test
+        run: |
+          cd makerworks/frontend
+          npm test
