@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:1.5
 
 ###
-# 1. Install frontend deps with cache mount
+# 1. Install makerworks-frontend deps with cache mount
 ###
 FROM node:20-alpine AS deps
 WORKDIR /app
 
-COPY frontend/package.json frontend/package-lock.json* ./
+COPY makerworks-frontend/package.json makerworks-frontend/package-lock.json* ./
 
 RUN --mount=type=cache,target=/root/.npm \
     --mount=type=cache,target=/app/node_modules \
@@ -23,11 +23,11 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /tmp/node_modules ./node_modules
-COPY frontend/package*.json ./
-COPY frontend/. .
+COPY makerworks-frontend/package*.json ./
+COPY makerworks-frontend/. .
 
 # Optional env fallback for Vite build
-COPY frontend/.env.dev .env || true
+COPY makerworks-frontend/.env.dev .env || true
 
 RUN --mount=type=cache,target=/app/.vite \
     npm run build
@@ -45,7 +45,7 @@ COPY --from=builder /app/dist ./
 RUN mkdir -p /etc/nginx/conf.d && rm -f /etc/nginx/conf.d/default.conf
 
 # Copy our custom nginx config
-COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY makerworks-frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
@@ -57,10 +57,10 @@ FROM node:20-alpine AS dev
 WORKDIR /app
 
 COPY --from=deps /tmp/node_modules ./node_modules
-COPY frontend/package*.json ./
-COPY frontend/. .
+COPY makerworks-frontend/package*.json ./
+COPY makerworks-frontend/. .
 
-COPY frontend/.env.development .env || true
+COPY makerworks-frontend/.env.development .env || true
 
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host"]
