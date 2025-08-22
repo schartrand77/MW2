@@ -13,3 +13,7 @@ passlib[bcrypt]
 itsdangerous
 pyotp
 stripe
+trimesh
+matplotlib
+pillow
+python-multipart

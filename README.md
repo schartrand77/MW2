@@ -92,3 +92,14 @@ Available endpoints:
 Supported providers: `bambu` and `octoprint`. Set `BAMBU_CONNECT_API_KEY`,
 `OCTOPRINT_BASE_URL`, and `OCTOPRINT_API_KEY` in your environment to enable.
 
+## Models
+
+Upload STL or 3MF files and generate thumbnails:
+
+- `GET /api/v1/models`
+- `POST /api/v1/models` (multipart file field `file`)
+- `GET /api/v1/models/{id}`
+- `GET /api/v1/models/{id}/file`
+- `POST /api/v1/models/{id}/color` to set a hex color and re-render the thumbnail
+- `POST /api/v1/models/{id}/rethumb` to regenerate the thumbnail
+

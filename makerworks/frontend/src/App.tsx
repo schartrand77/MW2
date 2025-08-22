@@ -9,6 +9,7 @@ import CheckoutCancel from './pages/CheckoutCancel';
 import Affiliate from './pages/Affiliate';
 import Scan from './pages/Scan';
 import PrinterAdmin from './pages/PrinterAdmin';
+import ModelEditor from './pages/ModelEditor';
 
 function Home() {
   return (
@@ -27,6 +28,8 @@ function Home() {
       <Link to="/scan">Scan</Link>
       <br />
       <Link to="/admin/printers">Printers</Link>
+      <br />
+      <Link to="/models/demo/edit">Model Editor</Link>
     </div>
   );
 }
@@ -43,6 +46,7 @@ export default function App() {
       <Route path="/affiliate" element={<Affiliate />} />
       <Route path="/scan" element={<Scan />} />
       <Route path="/admin/printers" element={<PrinterAdmin />} />
+      <Route path="/models/:id/edit" element={<ModelEditor />} />
       <Route path="/checkout/success" element={<CheckoutSuccess />} />
       <Route path="/checkout/cancel" element={<CheckoutCancel />} />
     </Routes>
