@@ -93,8 +93,16 @@ def test_store_flow(client):
             }
         },
     }
-    r = c.post("/api/v1/checkout/webhook", json=webhook_payload)
-    assert r.status_code == 200
+    with patch(
+        "app.api.api_v1.routes.checkout.stripe.Webhook.construct_event"
+    ) as mock_event:
+        mock_event.return_value = webhook_payload
+        r = c.post(
+            "/api/v1/checkout/webhook",
+            data="{}",
+            headers={"stripe-signature": "sig"},
+        )
+        assert r.status_code == 200
 
     db = SessionLocal()
     order = db.get(Order, order_id)

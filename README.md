@@ -57,4 +57,5 @@ Available endpoints:
 - `POST /api/v1/checkout/webhook`
 
 Stripe operates in test mode by default. Provide `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment to enable real sessions.
+Webhook requests must include the `Stripe-Signature` header and are verified against the webhook secret.
 

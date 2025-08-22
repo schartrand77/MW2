@@ -66,9 +66,17 @@ def create_checkout_session(
 
 @router.post("/webhook")
 async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
-    data = await request.json()
-    if data.get("type") == "checkout.session.completed":
-        session = data["data"]["object"]
+    payload = await request.body()
+    sig = request.headers.get("stripe-signature", "")
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig, settings.stripe_webhook_secret
+        )
+    except stripe.error.SignatureVerificationError:
+        raise HTTPException(status_code=400, detail="invalid signature")
+
+    if event.get("type") == "checkout.session.completed":
+        session = event["data"]["object"]
         order_id = session["metadata"]["order_id"]
         order = db.get(Order, order_id)
         if order and order.status != "paid":
