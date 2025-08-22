@@ -6,7 +6,9 @@ Dockerized monorepo containing a FastAPI backend and a React/Vite frontend.
 
 1. Copy `makerworks/infra/.env.example` to `makerworks/infra/.env` and adjust values as needed. The sample file includes
    placeholders for Postgres, Redis, OAuth providers, Stripe, storage backends and other integrations. Stub values are
-   provided so the stack can boot without real secrets.
+   provided so the stack can boot without real secrets. At minimum, define
+   `DATABASE_URL`, `REDIS_URL`, and `SECRET_KEY`; the backend requires these
+   environment variables and no built-in defaults are used.
 2. Start the development stack:
    ```bash
    make docker-up
