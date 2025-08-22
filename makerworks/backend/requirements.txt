@@ -12,3 +12,4 @@ strawberry-graphql
 passlib[bcrypt]
 itsdangerous
 pyotp
+stripe

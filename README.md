@@ -45,3 +45,16 @@ Available endpoints:
 
 OAuth logins for Google, GitHub, and Apple are stubbed for now.
 
+## Storefront
+
+Available endpoints:
+
+- `GET /api/v1/products`
+- `GET /api/v1/products/{id}`
+- `GET /api/v1/cart`
+- `POST /api/v1/cart/items`
+- `POST /api/v1/checkout/session`
+- `POST /api/v1/checkout/webhook`
+
+Stripe operates in test mode by default. Provide `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment to enable real sessions.
+
