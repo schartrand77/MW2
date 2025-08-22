@@ -64,3 +64,14 @@ call their optional `setup()` hook.
 Responses now include `Cache-Control` and `ETag` headers by default, enabling Cloudflare-friendly caching with
 `stale-while-revalidate` semantics.
 
+### Offline Mode & Background Sync
+
+The frontend registers a service worker that precaches assets and caches API GET requests. Failed API mutations are
+queued and retried when connectivity is restored using Background Sync.
+
+### Import/Export & Bulk Operations
+
+API keys can be exported or imported in CSV or JSON form via `/api/v1/apikeys/export` and `/api/v1/apikeys/import`. The
+import endpoint supports a `dry_run=true` flag for validation without persistence. Delete multiple keys at once with
+`POST /api/v1/apikeys/bulk-delete`.
+

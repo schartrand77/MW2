@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './style.css';
 import { loadPlugins } from './plugins';
+import { registerSW } from 'virtual:pwa-register';
 
 await loadPlugins();
+registerSW();
 
 const queryClient = new QueryClient();
 

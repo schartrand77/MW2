@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      srcDir: 'src',
+      filename: 'sw.ts',
+      strategies: 'injectManifest',
       manifest: {
         name: 'MakerWorks',
         short_name: 'MakerWorks',

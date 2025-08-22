@@ -10,3 +10,4 @@ rq
 httpx
 strawberry-graphql
 prometheus-client
+python-multipart
