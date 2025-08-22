@@ -71,9 +71,9 @@ services:
     ports: ["8000:8000"]
     volumes:
       - ./makerworks-backend:/app
-      - /Users/stephenchartrand/Downloads/makerworks-repo/makerworks/uploads:/app/uploads
-      - /Users/stephenchartrand/Downloads/makerworks-repo/makerworks/thumbnails:/thumbnails
-      - /Users/stephenchartrand/Downloads/makerworks-repo/makerworks/models:/models
+      - ${HOST_UPLOADS_DIR:-./uploads}:/app/uploads
+      - ${HOST_THUMBNAILS_DIR:-./thumbnails}:/thumbnails
+      - ${HOST_MODELS_DIR:-./models}:/models
     env_file:
       - ./makerworks-backend/.env.dev
       - ./makerworks-backend/.env
