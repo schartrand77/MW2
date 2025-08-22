@@ -21,6 +21,9 @@ services:
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     volumes:
       - ../backend:/app
+      - ${HOST_UPLOADS_DIR:-../uploads}:/data/uploads
+      - ${HOST_THUMBNAILS_DIR:-../thumbnails}:/data/thumbnails
+      - ${HOST_MODELS_DIR:-../models}:/data/models
     environment:
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_URL: ${REDIS_URL}
@@ -35,6 +38,9 @@ services:
     command: rq worker
     volumes:
       - ../backend:/app
+      - ${HOST_UPLOADS_DIR:-../uploads}:/data/uploads
+      - ${HOST_THUMBNAILS_DIR:-../thumbnails}:/data/thumbnails
+      - ${HOST_MODELS_DIR:-../models}:/data/models
     environment:
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_URL: ${REDIS_URL}
