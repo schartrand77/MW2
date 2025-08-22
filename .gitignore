@@ -13,6 +13,9 @@ __pycache__/
 
 # Node
 node_modules/
+
+# Backup files
+makerworks/infra/backup.sql
 dist/
 *.log
 

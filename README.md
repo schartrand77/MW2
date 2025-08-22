@@ -40,3 +40,18 @@ Subscribe API keys to events using `/api/v1/notifications/subscriptions` and dis
 `/api/v1/notifications/trigger/{event}`. When `DISCORD_BOT_TOKEN` and `DISCORD_CHANNEL_ID` are
 configured, `/api/v1/notifications/discord` returns the latest messages for the notification center.
 
+### Analytics
+
+Prometheus metrics are exposed at `/metrics` and scraped by the bundled Prometheus container. A Grafana instance is
+available on [http://localhost:3001](http://localhost:3001) with a basic dashboard for HTTP request rates.
+
+### Backups
+
+Run `makerworks/infra/backup.sh` to dump the Postgres database to `backup.sql` and `makerworks/infra/restore.sh` to
+restore from it.
+
+### Compliance
+
+Export or delete persisted data using `/api/v1/compliance/export` and `/api/v1/compliance/delete`. A basic GDPR
+checklist is available at `/api/v1/compliance/checklist`.
+
