@@ -1,0 +1,144 @@
+x-buildkit-env: &buildkit-env
+  COMPOSE_BAKE: "true"
+  DOCKER_BUILDKIT: "1"
+  BUILDKIT_INLINE_CACHE: "1"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: makerworks_postgres
+    restart: unless-stopped
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_USER: makerworks
+      POSTGRES_PASSWORD: makerworks
+      POSTGRES_DB: makerworks
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U makerworks"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: makerworks_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 3s
+      interval: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: ./makerworks-backend
+      dockerfile: Dockerfile.macos
+    container_name: makerworks_migrate
+    restart: "no"
+    entrypoint: ["/bin/sh", "-c"]
+    command: |
+      echo "⏳ Waiting for PostgreSQL..."
+      until PGPASSWORD=makerworks psql -h postgres -U makerworks -d makerworks -c '\q'; do
+        sleep 1
+      done
+      echo "🔖 Stamping initial stub..."
+      alembic -c alembic.ini stamp 06615bc439f5
+      echo "🚀 Applying migrations..."
+      alembic -c alembic.ini upgrade head
+    working_dir: /app
+    volumes:
+      - ./makerworks-backend:/app
+    environment:
+      <<: *buildkit-env
+      DATABASE_URL: postgresql+asyncpg://makerworks:makerworks@postgres:5432/makerworks
+      RUN_MIGRATIONS: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: ./makerworks-backend
+      dockerfile: Dockerfile.macos
+    container_name: makerworks_backend
+    restart: unless-stopped
+    ports: ["8000:8000"]
+    volumes:
+      - ./makerworks-backend:/app
+      - /Users/stephenchartrand/Downloads/makerworks-repo/makerworks/uploads:/app/uploads
+      - /Users/stephenchartrand/Downloads/makerworks-repo/makerworks/thumbnails:/thumbnails
+      - /Users/stephenchartrand/Downloads/makerworks-repo/makerworks/models:/models
+    env_file:
+      - ./makerworks-backend/.env.dev
+      - ./makerworks-backend/.env
+    environment:
+      <<: *buildkit-env
+      DATABASE_URL: postgresql+asyncpg://makerworks:makerworks@postgres:5432/makerworks
+      BASE_URL: http://localhost:8000
+      # CORS for local dev (5173 Vite; add 8080 if you run prod preview)
+      CORS_ORIGINS: '["http://localhost:5173","http://127.0.0.1:5173","http://localhost:8080"]'
+      # explicit inside-container paths (match binds above)
+      UPLOAD_DIR: /app/uploads
+      THUMBNAILS_DIR: /thumbnails
+      MODELS_DIR: /models
+      # Redis wiring (multiple formats because codebases love bikeshedding names)
+      REDIS_URL: redis://redis:6379/0
+      REDIS_URI: redis://redis:6379/0
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - |
+          python - <<'PY' || exit 1
+          import sys, urllib.request
+          try:
+            r = urllib.request.urlopen('http://127.0.0.1:8000/openapi.json', timeout=3)
+            sys.exit(0 if r.status == 200 else 1)
+          except Exception:
+            sys.exit(1)
+          PY
+      interval: 15s
+      timeout: 10s
+      start_period: 90s
+      retries: 5
+    working_dir: /app
+
+  # Dev frontend (Vite on 5173)
+  frontend:
+    build:
+      context: ./makerworks-frontend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: makerworks_frontend
+    restart: unless-stopped
+    ports: ["5173:5173"]
+    environment:
+      <<: *buildkit-env
+      VITE_API_BASE_URL: http://localhost:8000/api/v1
+      VITE_BACKEND_URL:  http://localhost:8000
+    volumes:
+      - ./makerworks-frontend:/app
+      - /app/node_modules
+    depends_on:
+      backend:
+        condition: service_healthy
+    command: npm run dev -- --host
+
+volumes:
+  postgres_data:
+  redis_data:

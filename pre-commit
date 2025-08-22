@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+
+command -v pre-commit >/dev/null 2>&1 || {
+  echo "pre-commit is not installed. Please install it." >&2
+  exit 1
+}
+
+pre-commit run --files "$@"

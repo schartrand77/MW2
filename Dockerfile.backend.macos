@@ -1,0 +1,107 @@
+# syntax=docker/dockerfile:1.5
+
+##############################################
+# ===== macOS Backend (multi-arch) =====
+##############################################
+
+ARG TARGETPLATFORM
+FROM --platform=${TARGETPLATFORM:-linux/arm64} python:3.12-slim AS base
+
+WORKDIR /app
+
+# Install Postgres client (pg_isready) and build tools
+RUN apt-get update && \
+    (apt-get install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+        libpq5 \
+        gcc \
+        curl \
+        git \
+        libfreetype6-dev \
+        libpng-dev \
+        pkg-config \
+        python3-dev \
+        postgresql-client-15 \
+     || apt-get install -y --no-install-recommends postgresql-client) && \
+    rm -rf /var/lib/apt/lists/*
+
+# Verify pg_isready exists
+RUN command -v pg_isready || (echo "❌ pg_isready missing!" && exit 1)
+
+# Python runtime niceties
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Install Python deps (requirements.txt lives at build-context root)
+COPY requirements.txt ./requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --upgrade pip \
+ && pip install --no-cache-dir psycopg2-binary>=2.9 \
+ && pip install --no-cache-dir -r requirements.txt \
+ && pip install --no-cache-dir gunicorn uvicorn
+
+##############################################
+# ===== Builder Stage =====
+##############################################
+ARG TARGETPLATFORM
+FROM --platform=${TARGETPLATFORM:-linux/arm64} base AS builder
+WORKDIR /app
+
+# Copy Alembic config and scripts (paths are relative to build context)
+COPY alembic.ini /app/alembic.ini
+COPY alembic /app/alembic
+
+# Ensure alembic/versions directory exists even if empty
+RUN test -d /app/alembic/versions || mkdir -p /app/alembic/versions
+
+# Copy env example for local dev (optional)
+COPY .env.example /app/.env.dev
+
+# Copy application code
+COPY app /app/app
+
+##############################################
+# ===== Final Stage (runtime) =====
+##############################################
+ARG TARGETPLATFORM
+FROM --platform=${TARGETPLATFORM:-linux/arm64} python:3.12-slim AS final
+WORKDIR /app
+
+# Prefer OSMesa for headless rendering; code can switch to EGL if present
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYOPENGL_PLATFORM=osmesa
+
+# Runtime tools + headless GL stack for pyrender/trimesh offscreen rendering
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      postgresql-client \
+      curl \
+      libgl1-mesa-glx \
+      libgl1-mesa-dri \
+      libglu1-mesa \
+      libgles2 \
+      libegl1 \
+      libosmesa6 \
+      libosmesa6-dev \
+      libglfw3 \
+      libxext6 libx11-6 libxrender1 libxi6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Bring in site-packages and binaries from builder
+COPY --from=builder /usr/local /usr/local
+
+# Copy app, Alembic, env
+COPY --from=builder /app/app /app/app
+COPY --from=builder /app/alembic /app/alembic
+COPY --from=builder /app/alembic.ini /app/alembic.ini
+COPY --from=builder /app/.env.dev /app/.env.dev
+
+# Entrypoint script (from build context root)
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh \
+ && sed -i 's/\r$//' /app/docker-entrypoint.sh
+
+EXPOSE 8000
+ENTRYPOINT ["./docker-entrypoint.sh"]
