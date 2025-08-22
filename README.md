@@ -33,3 +33,15 @@ Run `python makerworks/backend/app/seed.py` after the database is up to create a
 
 Feature flags are stored in the `feature_flags` table. Toggle `enabled` for each flag to enable or disable features.
 
+## Auth
+
+Available endpoints:
+
+- `POST /api/v1/auth/signup`
+- `POST /api/v1/auth/signin`
+- `GET /api/v1/auth/me`
+- `POST /api/v1/auth/signout` (requires `X-CSRF-Token` header matching the `csrf` cookie)
+- `POST /api/v1/auth/totp/setup` and `/api/v1/auth/totp/verify` for 2FA
+
+OAuth logins for Google, GitHub, and Apple are stubbed for now.
+

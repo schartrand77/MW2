@@ -15,6 +15,9 @@ dependencies = [
     "rq",
     "strawberry-graphql",
     "httpx",
+    "passlib[bcrypt]",
+    "itsdangerous",
+    "pyotp",
 ]
 
 [tool.pytest.ini_options]

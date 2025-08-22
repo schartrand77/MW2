@@ -9,3 +9,6 @@ redis
 rq
 httpx
 strawberry-graphql
+passlib[bcrypt]
+itsdangerous
+pyotp
