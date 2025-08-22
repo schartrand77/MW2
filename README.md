@@ -11,7 +11,7 @@ Dockerized monorepo containing a FastAPI backend and a React/Vite frontend.
    ```bash
    make docker-up
    ```
-   Backend runs at [http://localhost:8000](http://localhost:8000) and frontend at [http://localhost:5173](http://localhost:5173).
+   Backend runs at [http://localhost:8000](http://localhost:8000) and frontend at [http://localhost:5173](http://localhost:5173). A GraphQL endpoint is available at `/graphql`.
 
 ## Testing
 
@@ -25,4 +25,12 @@ Run `python makerworks/backend/app/seed.py` after the database is up to create a
 ## Feature Flags
 
 Feature flags are stored in the `feature_flags` table. Toggle `enabled` for each flag to enable or disable features.
+
+### API Keys & Webhooks
+
+Issue API keys via `POST /api/v1/apikeys` and supply them with the `X-API-Key` header. Create webhooks via `POST /api/v1/webhooks`; deliveries are HMAC signed.
+
+### Rate Limiting
+
+A simple per-IP rate limiter is provided and used on `/api/v1/system/limited` as an example.
 

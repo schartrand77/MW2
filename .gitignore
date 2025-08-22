@@ -18,6 +18,7 @@ dist/
 
 # Alembic
 makerworks/backend/alembic/versions/*.pyc
+makerworks/backend/test.db
 
 # VSCode
 .vscode/
