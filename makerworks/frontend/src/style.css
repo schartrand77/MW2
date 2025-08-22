@@ -1,0 +1,33 @@
+:root {
+  --mw-green: #00ff85;
+  --mw-red: #ff0040;
+  --mw-text: #ffffff;
+  --mw-bg: #1b1b1b;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--mw-bg);
+  color: var(--mw-text);
+}
+
+button {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--mw-text);
+  cursor: pointer;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+button.primary {
+  border-color: var(--mw-green);
+  box-shadow: 0 0 4px var(--mw-green), 0 0 8px var(--mw-green);
+}
+
+button.destructive {
+  border-color: var(--mw-red);
+  box-shadow: 0 0 4px var(--mw-red), 0 0 8px var(--mw-red);
+}
