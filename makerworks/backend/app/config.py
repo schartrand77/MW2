@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     discord_bot_token: str | None = Field(default=None, validation_alias=AliasChoices("DISCORD_BOT_TOKEN",))
     discord_channel_id: str | None = Field(default=None, validation_alias=AliasChoices("DISCORD_CHANNEL_ID",))
     plugins_raw: str = Field(default="", validation_alias=AliasChoices("PLUGINS",))
+    sentry_dsn: str | None = Field(default=None, validation_alias=AliasChoices("SENTRY_DSN",))
 
     @property
     def plugins(self) -> list[str]:

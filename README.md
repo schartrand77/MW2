@@ -70,6 +70,13 @@ call their optional `setup()` hook.
 Responses now include `Cache-Control` and `ETag` headers by default, enabling Cloudflare-friendly caching with
 `stale-while-revalidate` semantics.
 
+### Security & Monitoring
+
+Cross-origin requests are handled via permissive CORS settings for development and responses include a
+`Content-Security-Policy` header. If `SENTRY_DSN`/`VITE_SENTRY_DSN` are set, backend and frontend errors are reported to
+Sentry. React components are wrapped in an error boundary and common screens show loading skeletons and empty-state
+placeholders.
+
 ### Offline Mode & Background Sync
 
 The frontend registers a service worker that precaches assets and caches API GET requests. Failed API mutations are

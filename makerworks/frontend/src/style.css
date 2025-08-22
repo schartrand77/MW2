@@ -53,3 +53,20 @@ button.destructive {
   padding: 0;
   margin: 0;
 }
+
+.skeleton {
+  background: #333;
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.empty-state {
+  color: #888;
+  padding: 1rem;
+}

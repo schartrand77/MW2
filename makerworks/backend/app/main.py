@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import hashlib
 
+import sentry_sdk
 from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+from starlette.middleware.base import BaseHTTPMiddleware
 import strawberry
 from strawberry.fastapi import GraphQLRouter
 from prometheus_client import Counter, make_asgi_app
@@ -27,7 +31,27 @@ REQUEST_COUNT = Counter(
 
 
 def create_app() -> FastAPI:
+    if settings.sentry_dsn:
+        sentry_sdk.init(dsn=settings.sentry_dsn, integrations=[FastApiIntegration()])
+
     app = FastAPI(title="MakerWorks API")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+        async def dispatch(self, request: Request, call_next):
+            response = await call_next(request)
+            headers = response.headers
+            headers.setdefault("Content-Security-Policy", "default-src 'self'")
+            headers.setdefault("X-Frame-Options", "DENY")
+            headers.setdefault("X-Content-Type-Options", "nosniff")
+            return response
+
+    app.add_middleware(SecurityHeadersMiddleware)
     app.include_router(api_router, prefix="/api/v1")
     app.include_router(GraphQLRouter(schema), prefix="/graphql")
 
