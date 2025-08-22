@@ -54,9 +54,10 @@ Docker Compose can spin up the entire stack, including PostgreSQL, Redis, Promet
 - Node.js 18+
 
 ## Quick Start with Docker Compose
-1. Copy the environment files for each service:
+1. Copy the environment files:
 
    ```bash
+   cp .env.example .env
    cp makerworks-backend/.env.example makerworks-backend/.env
    cp makerworks-frontend/.env.example makerworks-frontend/.env
    ```
@@ -90,7 +91,7 @@ npm run dev
 The app will be available at `http://localhost:5173` by default.
 
 ## Environment Variables
-Each service includes a `.env.example` file listing all required variables. Copy it to `.env` and adjust values for your environment. Key settings include API URLs, database connection strings, Stripe keys and Redis configuration.
+Each service and the repository root include a `.env.example` file listing required variables. Copy each to `.env` and adjust values for your environment. The root `.env` holds shared settings used by `docker-compose`, such as database URLs, Redis connections and the application's secret key.
 
 ## Testing
 Run the test suites before submitting changes:
