@@ -59,3 +59,11 @@ Available endpoints:
 Stripe operates in test mode by default. Provide `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment to enable real sessions.
 Webhook requests must include the `Stripe-Signature` header and are verified against the webhook secret.
 
+## Amazon Affiliate
+
+Enable the `amazon_affiliate` feature flag and set `AMAZON_ASSOCIATE_TAG` to activate the Amazon search endpoint:
+
+- `GET /api/v1/amazon/search?q=`
+
+Results are cached in Redis and include your affiliate tag.
+

@@ -21,6 +21,9 @@ export default function Catalog() {
   const { data } = useQuery({ queryKey: ['products'], queryFn: fetchProducts });
   return (
     <div>
+      <nav>
+        <Link to="/catalog">Catalog</Link> | <Link to="/affiliate">Affiliate</Link>
+      </nav>
       <h2>Catalog</h2>
       {data?.map((p) => (
         <div key={p.id}>

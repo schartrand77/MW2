@@ -6,6 +6,7 @@ import Product from './pages/Product';
 import Cart from './pages/Cart';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutCancel from './pages/CheckoutCancel';
+import Affiliate from './pages/Affiliate';
 
 function Home() {
   return (
@@ -18,6 +19,8 @@ function Home() {
       <Link to="/catalog">Catalog</Link>
       <br />
       <Link to="/cart">Cart</Link>
+      <br />
+      <Link to="/affiliate">Affiliate</Link>
     </div>
   );
 }
@@ -31,6 +34,7 @@ export default function App() {
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/products/:id" element={<Product />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/affiliate" element={<Affiliate />} />
       <Route path="/checkout/success" element={<CheckoutSuccess />} />
       <Route path="/checkout/cancel" element={<CheckoutCancel />} />
     </Routes>

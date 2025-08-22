@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     stripe_secret_key: str = "sk_test_123"
     stripe_webhook_secret: str = "whsec_test"
     frontend_url: str = "http://localhost:5173"
+    amazon_associate_tag: str | None = None
+    amazon_paapi_access_key: str | None = None
+    amazon_paapi_secret_key: str | None = None
 
 
 settings = Settings()
