@@ -67,3 +67,17 @@ Enable the `amazon_affiliate` feature flag and set `AMAZON_ASSOCIATE_TAG` to act
 
 Results are cached in Redis and include your affiliate tag.
 
+## Inventory
+
+Available endpoints:
+
+- `GET /api/v1/inventory/levels`
+- `PATCH /api/v1/inventory/levels`
+- `GET /api/v1/inventory/moves`
+- `POST /api/v1/inventory/moves`
+- `GET /api/v1/user/inventory`
+- `POST /api/v1/user/inventory`
+- `DELETE /api/v1/user/inventory/{id}`
+
+Use the `/scan` page in the frontend to scan barcodes and post inventory moves by SKU.
+

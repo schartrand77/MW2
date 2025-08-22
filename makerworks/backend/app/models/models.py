@@ -144,6 +144,17 @@ class InventoryMove(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 
+class UserInventory(Base):
+    __tablename__ = "user_inventory"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=default_uuid)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    product_variant_id: Mapped[str] = mapped_column(
+        ForeignKey("product_variants.id", ondelete="CASCADE")
+    )
+    quantity: Mapped[int] = mapped_column(Integer, default=0)
+
+
 class Cart(Base):
     __tablename__ = "carts"
 
