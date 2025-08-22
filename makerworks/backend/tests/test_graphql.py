@@ -6,8 +6,8 @@ os.environ.setdefault("POSTGRES_URL", "sqlite:///./test.db")
 from app.main import app
 
 
-def test_ping() -> None:
+def test_graphql_ping() -> None:
     client = TestClient(app)
-    r = client.get("/api/v1/system/ping")
+    r = client.post("/graphql", json={"query": "{ ping }"})
     assert r.status_code == 200
-    assert r.json() == {"status": "ok"}
+    assert r.json() == {"data": {"ping": "pong"}}
